@@ -1,3 +1,6 @@
+import 'package:food/features/auth/models/admin_model.dart';
+import 'package:food/features/auth/models/user_type_enum.dart';
+
 class AuthState {}
 
 class AuthInitialState extends AuthState {}
@@ -5,9 +8,9 @@ class AuthInitialState extends AuthState {}
 class AuthLoadingState extends AuthState {}
 
 class AuthSuccessState extends AuthState{
-  final String? role;
+  final UserTypeEnum role;
 
-  AuthSuccessState({this.role});
+  AuthSuccessState({required this.role,});
 }
 
 class AuthFailureState extends AuthState{

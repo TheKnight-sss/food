@@ -1,9 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food/core/routes/routes.dart';
 import 'package:food/core/utils/themes.dart';
 import 'package:food/firebase_options.dart';
+import 'package:food/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:food/features/food/presentation/cubit/product_cubit.dart';
 import 'package:food/services/local/local_helper.dart';
 
 void main() async {
@@ -18,17 +21,23 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      routerConfig: Routes.routes,
-      theme: AppTheme.lightTheme,
-      // supportedLocales: const [Locale("ar")],
-      // locale: Locale("ar"),
-      // localizationsDelegates: [
-      //   GlobalMaterialLocalizations.delegate,
-      //   GlobalWidgetsLocalizations.delegate,
-      //   GlobalCupertinoLocalizations.delegate,
-      // ],
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => AuthCubit()),
+        BlocProvider(create: (context) => ProductCubit()),
+      ],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: Routes.routes,
+        theme: AppTheme.lightTheme,
+        // supportedLocales: const [Locale("ar")],
+        // locale: Locale("ar"),
+        // localizationsDelegates: [
+        //   GlobalMaterialLocalizations.delegate,
+        //   GlobalWidgetsLocalizations.delegate,
+        //   GlobalCupertinoLocalizations.delegate,
+        // ],
+      ),
     );
   }
 }

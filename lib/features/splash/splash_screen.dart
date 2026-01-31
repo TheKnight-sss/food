@@ -21,11 +21,11 @@ class _SplashScreenState extends State<SplashScreen> {
       var user = FirebaseAuth.instance.currentUser;
 
       Future.delayed(const Duration(seconds: 3), () {
-          // if (user != null) {
-            pushwithReplacement(context, Routes.adminHome);
-          // } else {
-          //   pushwithReplacement(context, Routes.onboarding);
-          // }
+        if (user != null) {
+          pushwithReplacement(context, Routes.adminHome);
+        } else {
+          pushwithReplacement(context, Routes.onboarding);
+        }
       });
     });
   }

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 class AppColors {
   static const Color txtcolor = Color(0xFF646982);
+  static const Color txt2color = Color(0xFF838799);
   static const Color bgcolor = Color(0xFFF3F3F3);
   static const Color txtcolor2 = Color(0xFF676767);
   static const Color primcolor = Color(0xFFff7622);
@@ -13,5 +14,6 @@ class AppColors {
   static const Color accentcolor4 = Color(0xFFECF0F4);
   static const Color icon = Color(0xFF181C2E);
   static const Color icon2 = Color(0xFFA0A5BA);
+  static const Color icon3 = Color(0xFFAFAFAF);
   static const Color search = Color(0xFFF6F6F6);
 }

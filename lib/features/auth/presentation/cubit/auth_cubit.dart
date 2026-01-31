@@ -25,7 +25,7 @@ class AuthCubit extends Cubit<AuthState> {
         email: emailController.text,
         password: passwordController.text,
       );
-      emit(AuthSuccessState(role: credential.user?.photoURL));
+      emit(AuthSuccessState(role: credential.user?.photoURL == 'admin' ? UserTypeEnum.admin : UserTypeEnum.customer,));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         emit(AuthFailureState("The user not found"));
@@ -73,7 +73,7 @@ class AuthCubit extends Cubit<AuthState> {
             });
       }
 
-      emit(AuthSuccessState());
+      emit(AuthSuccessState(role: type,));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         emit(AuthFailureState("كلمة المرور ضعيفة جدا"));

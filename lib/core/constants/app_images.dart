@@ -10,4 +10,9 @@ class AppImages {
   static const String google = "assets/icons/Google.svg";
   static const String profile = "assets/icons/profile.svg";
   static const String search = "assets/icons/search.svg";
+  static const String window = "assets/icons/window.svg";
+  static const String list = "assets/icons/list.svg";
+  static const String add = "assets/icons/add.svg";
+  static const String bell = "assets/icons/bell.svg";
+  static const String user = "assets/icons/User.svg";
 }

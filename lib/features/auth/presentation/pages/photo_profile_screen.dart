@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food/components/buttons/main_button.dart';
@@ -9,6 +10,7 @@ import 'package:food/core/routes/navigation.dart';
 import 'package:food/core/routes/routes.dart';
 import 'package:food/core/utils/colors.dart';
 import 'package:food/core/utils/text_style.dart';
+import 'package:food/features/auth/models/admin_model.dart';
 import 'package:food/features/auth/models/user_type_enum.dart';
 import 'package:food/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:food/features/auth/presentation/cubit/auth_state.dart';
@@ -17,8 +19,8 @@ import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PhotoProfileScreen extends StatefulWidget {
-  PhotoProfileScreen({super.key, this.userType});
-  final UserTypeEnum? userType;
+  PhotoProfileScreen({super.key,});
+  final User user = FirebaseAuth.instance.currentUser!;
   var formKey = GlobalKey<FormState>();
 
   @override
@@ -35,8 +37,10 @@ class _PhotoProfileScreenState extends State<PhotoProfileScreen> {
         if (state is AuthLoadingState) {
           showLoadingDialog(context);
         } else if (state is AuthSuccessState) {
-          Navigator.pop(context);
-          pushTo(context, Routes.login);
+          if (state.role == UserTypeEnum.admin) {
+            Navigator.pop(context);
+            pushTo(context, Routes.adminHome,extra: widget.user.uid);
+          }
         } else if (state is AuthFailureState) {
           Navigator.pop(context);
           showMyDialog(context, state.errorMessage, type: Dialogs.error);
@@ -78,7 +82,7 @@ class _PhotoProfileScreenState extends State<PhotoProfileScreen> {
                         backgroundColor: AppColors.icon,
                         child: ProfileIcon(
                           imageUrl: file?.path,
-                          size: 60,
+                          size: 60, admin: UserTypeEnum.admin as AdminModel,
                         ),
                       ),
                       Gap(20),

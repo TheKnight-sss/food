@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
           } else if (state is AuthSuccessState) {
             if (state.role == "admin") {
               Navigator.pop(context);
-              pushTo(context, Routes.profile);
+              pushTo(context, Routes.adminHome,extra: widget.userType);
             }
             if (state.role == "customer") {
               Navigator.pop(context);
