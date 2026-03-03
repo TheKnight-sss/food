@@ -14,5 +14,6 @@ class AppImages {
   static const String list = "assets/icons/list.svg";
   static const String add = "assets/icons/add.svg";
   static const String bell = "assets/icons/bell.svg";
-  static const String user = "assets/icons/User.svg";
+  static const String user = "assets/icons/User.png";
+  static const String user2 = "assets/icons/User2.svg";
 }

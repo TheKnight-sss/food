@@ -1,25 +1,31 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food/components/buttons/main_button.dart';
 import 'package:food/components/inputs/custom_text_field.dart';
 import 'package:food/core/functions/show_dialog.dart';
+import 'package:food/core/routes/navigation.dart';
+import 'package:food/core/routes/routes.dart';
 import 'package:food/core/utils/colors.dart';
 import 'package:food/core/utils/text_style.dart';
 import 'package:food/features/food/presentation/cubit/product_cubit.dart';
 import 'package:food/features/food/presentation/cubit/product_state.dart';
 import 'package:gap/gap.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddItemScreen extends StatefulWidget {
-  AddItemScreen({super.key});
+    const AddItemScreen({super.key,});
 
-  final nameController = TextEditingController();
-  final priceController = TextEditingController();
-  final descController = TextEditingController();
+  
+
 
   @override
   State<AddItemScreen> createState() => _AddItemScreenState();
 }
 
 class _AddItemScreenState extends State<AddItemScreen> {
+  File? productImage;
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<ProductCubit>();
@@ -35,6 +41,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
               "Item added successfully",
               type: Dialogs.success,
             );
+            pushwithReplacement(context, Routes.admindashboard);
           } else if (state is AddItemError) {
             Navigator.pop(context);
             showMyDialog(context, state.message, type: Dialogs.error);
@@ -85,9 +92,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 Text("UPLOAD PHOTO", style: Style.title),
                 Gap(8),
                 GestureDetector(
-                  onTap: () {
-                    
-                  },
+                  onTap: () => uploadImages(isCamera: false),
                   child: Container(
                     height: 110,
                     width: double.infinity,
@@ -107,6 +112,21 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   hint: "Enter Item Price",
                   controller: cubit.priceController,
                 ),
+                Row(children: [Text("ITEM Category", style: Style.title)]),
+                Gap(8),
+                DropdownMenu<String>(
+                  hintText: "Select Item Category",
+                  width: double.infinity,
+                  onSelected: (value) {
+                  cubit.categController.text = value ?? '';
+                  },
+                  dropdownMenuEntries: [
+                  DropdownMenuEntry(value: 'Pizza', label: 'Pizza'),
+                  DropdownMenuEntry(value: 'Drink', label: 'Drink'),
+                  DropdownMenuEntry(value: 'Sandwich', label: 'Sandwich'),
+                  DropdownMenuEntry(value: 'Burger', label: 'Burger'),
+                  ],
+                ),
                 Gap(16),
                 Row(children: [Text("ITEM DESCRIPTION", style: Style.title)]),
                 Gap(8),
@@ -114,11 +134,25 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   hint: "Enter Item Description",
                   controller: cubit.descController,
                 ),
+                Spacer(),
+                CustomButton(txt: "Save Changes", onpressed: (){
+                  cubit.addItem(productImage!);
+                },)
               ],
             ),
           ),
         ),
       ),
     );
+  }
+  Future<void> uploadImages({required bool isCamera}) async {
+    XFile? pickedfile = await ImagePicker().pickImage(
+      source: isCamera ? ImageSource.camera : ImageSource.gallery,
+    );
+    if (pickedfile != null) {
+      setState(() {
+        productImage = File(pickedfile.path);
+      });
+    }
   }
 }

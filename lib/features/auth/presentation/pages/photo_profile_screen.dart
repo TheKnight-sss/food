@@ -14,14 +14,13 @@ import 'package:food/features/auth/models/admin_model.dart';
 import 'package:food/features/auth/models/user_type_enum.dart';
 import 'package:food/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:food/features/auth/presentation/cubit/auth_state.dart';
-import 'package:food/features/home/presentation/widgets/profile_icon.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PhotoProfileScreen extends StatefulWidget {
-  PhotoProfileScreen({super.key,});
+  PhotoProfileScreen({super.key, this.adminModel});
   final User user = FirebaseAuth.instance.currentUser!;
-  var formKey = GlobalKey<FormState>();
+  final AdminModel? adminModel;
 
   @override
   State<PhotoProfileScreen> createState() => _PhotoProfileScreenState();
@@ -29,6 +28,8 @@ class PhotoProfileScreen extends StatefulWidget {
 
 class _PhotoProfileScreenState extends State<PhotoProfileScreen> {
   File? file;
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<AuthCubit>();
@@ -39,7 +40,7 @@ class _PhotoProfileScreenState extends State<PhotoProfileScreen> {
         } else if (state is AuthSuccessState) {
           if (state.role == UserTypeEnum.admin) {
             Navigator.pop(context);
-            pushTo(context, Routes.adminHome,extra: widget.user.uid);
+            pushTo(context, Routes.adminHome, extra: widget.user.uid);
           }
         } else if (state is AuthFailureState) {
           Navigator.pop(context);
@@ -48,7 +49,7 @@ class _PhotoProfileScreenState extends State<PhotoProfileScreen> {
       },
       child: Scaffold(
         body: Form(
-          key: cubit.formKey,
+          key: _formKey,
           child: Stack(
             clipBehavior: Clip.none,
             children: [
@@ -77,14 +78,7 @@ class _PhotoProfileScreenState extends State<PhotoProfileScreen> {
                         style: Style.heading.copyWith(color: AppColors.white),
                       ),
                       Gap(20),
-                      CircleAvatar(
-                        radius: 60,
-                        backgroundColor: AppColors.icon,
-                        child: ProfileIcon(
-                          imageUrl: file?.path,
-                          size: 60, admin: UserTypeEnum.admin as AdminModel,
-                        ),
-                      ),
+                      photoIcon(file: file),
                       Gap(20),
                       CustomButton(
                         txt: "Choose from Gallery",
@@ -99,7 +93,10 @@ class _PhotoProfileScreenState extends State<PhotoProfileScreen> {
                       CustomButton(
                         txt: "Continue",
                         onpressed: () {
-                          goToBase(context, Routes.adminHome);
+                          if (file != null) {
+                            cubit.updateAdminData(file);
+                          }
+                          
                         },
                       ),
                     ],
@@ -119,9 +116,31 @@ class _PhotoProfileScreenState extends State<PhotoProfileScreen> {
     );
     if (pickedfile != null) {
       setState(() {
-        pop(context);
         file = File(pickedfile.path);
       });
     }
+  }
+}
+
+class photoIcon extends StatelessWidget {
+  const photoIcon({
+    super.key,
+    required this.file,
+  });
+
+  final File? file;
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: 60,
+      backgroundColor: AppColors.icon,
+      child: CircleAvatar(
+        radius: 55,
+        backgroundImage: (file != null)
+            ? FileImage(file!)
+            : AssetImage(AppImages.user),
+      ),
+    );
   }
 }

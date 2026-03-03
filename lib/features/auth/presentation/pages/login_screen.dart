@@ -17,15 +17,16 @@ import 'package:gap/gap.dart';
 
 // ignore: must_be_immutable
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key, required this.userType});
-  final UserTypeEnum userType;
-  var formKey = GlobalKey<FormState>();
+  const LoginScreen({super.key, this.userType});
+  final UserTypeEnum? userType;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<AuthCubit>();
@@ -92,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
               left: 0,
               right: 0,
               child: Form(
-                key: cubit.formKey,
+                key: _formKey,
                 child: Container(
                   padding: EdgeInsets.all(24),
                   decoration: BoxDecoration(
@@ -112,6 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Gap(8),
                       CustomTextField(hint: "example@gmail.com",
                       controller: cubit.emailController,
+                      color: AppColors.accentcolor3,
                       keyboardType: TextInputType.emailAddress,),
                       Gap(24),
                       Row(

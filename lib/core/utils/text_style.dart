@@ -21,6 +21,11 @@ class Style {
     fontWeight: FontWeight.w400,
   );
 
+  static const TextStyle fdname = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+  );
+
   static const TextStyle body = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,

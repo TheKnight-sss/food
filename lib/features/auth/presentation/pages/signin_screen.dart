@@ -15,8 +15,9 @@ import 'package:food/features/auth/presentation/cubit/auth_state.dart';
 import 'package:gap/gap.dart';
 
 class SigninScreen extends StatelessWidget {
-   const SigninScreen({super.key, required this.userType});
+   SigninScreen({super.key, required this.userType});
   final UserTypeEnum userType;
+  final _formKey = GlobalKey<FormState>();
   
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class SigninScreen extends StatelessWidget {
           }
         },
         child: Form(
-          key: cubit.formKey,
+          key: _formKey,
           child: SingleChildScrollView(
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
@@ -114,7 +115,7 @@ class SigninScreen extends StatelessWidget {
                           Gap(8),
                           CustomTextField(
                             hint: "Name",
-                            controller: cubit.nameController,
+                            controller: cubit.nameController,color: AppColors.accentcolor3,
                           ),
                           Gap(24),
                           Row(
@@ -124,7 +125,7 @@ class SigninScreen extends StatelessWidget {
                           Gap(8),
                           CustomTextField(
                             hint: "example@gmail.com",
-                            controller: cubit.emailController,
+                            controller: cubit.emailController,color: AppColors.accentcolor3,
                           ),
                           Gap(24),
                           Row(
@@ -155,7 +156,7 @@ class SigninScreen extends StatelessWidget {
                           CustomButton(
                             txt: "Sign Up",
                             onpressed: () {
-                              if (cubit.formKey.currentState!.validate()) {
+                              if (_formKey.currentState!.validate()) {
                                 cubit.register(type: userType);
                               }
                             },

@@ -1,27 +1,52 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food/components/up_bar.dart';
+import 'package:food/core/constants/app_images.dart';
 import 'package:food/core/routes/navigation.dart';
 import 'package:food/core/routes/routes.dart';
 import 'package:food/core/utils/colors.dart';
 import 'package:food/core/utils/text_style.dart';
-import 'package:food/features/home/presentation/widgets/counter.dart';
-import 'package:food/features/home/presentation/widgets/profile_icon.dart';
+import 'package:food/features/auth/models/admin_model.dart';
+import 'package:food/features/admin/presentation/widget/counter.dart';
+import 'package:food/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:food/features/auth/presentation/cubit/auth_state.dart';
 import 'package:gap/gap.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
- AdminDashboardScreen({super.key});
+  const AdminDashboardScreen({super.key, this.adminModel});
   final String coun1 = "Running Orders";
   final String coun2 = "Order Request";
-  final User user = FirebaseAuth.instance.currentUser!;
+  final AdminModel? adminModel;
+
   @override
   State<AdminDashboardScreen> createState() => _AdminDashboardScreenState();
 }
 
 class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
+  User? user;
+
+  Future<void> _getUser() async {
+    user = FirebaseAuth.instance.currentUser;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUser();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    final cubit = context.watch<AuthCubit>();
+    final admin = cubit.adminData;
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        
+      },
+      child: Padding(
         padding: const EdgeInsets.all(24),
         child: SingleChildScrollView(
           child: Column(
@@ -29,13 +54,24 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             children: [
               Gap(26),
               UpBar(
-                user: Text(widget.user.displayName ?? ""),
+                user: Text(user?.displayName ?? ""),
                 color: AppColors.white,
                 icon: GestureDetector(
                   onTap: () {
-                    pushTo(context, Routes.photo, extra: widget.user);
+                    pushTo(context, Routes.photo, extra: user);
                   },
-                  child: ProfileIcon(imageUrl: widget.user.photoURL, size: 24),
+                  child: (admin?.image != null)
+                    ? Image.network(
+                      admin!.image!,
+                      height: 40,
+                      width: 40,
+                      fit: BoxFit.contain,
+                    )
+                    : CircleAvatar(
+                      radius: 20,
+                      backgroundColor: AppColors.bgcolor,
+                      child: Icon(Icons.person, color: AppColors.darkColor),
+                    ),
                 ),
               ),
               Gap(24),
@@ -86,6 +122,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             ],
           ),
         ),
-      );
+      ),
+    );
   }
 }

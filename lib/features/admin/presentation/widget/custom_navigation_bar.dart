@@ -49,7 +49,7 @@ class CustomNavigationBar extends StatelessWidget {
               ),
             ),
             _navItem(AppImages.bell,3,26,26,true),
-            _navItem(AppImages.user,4,26,26,true),
+            _navItem(AppImages.user2,4,26,26,true),
           ],
         ),
       ),

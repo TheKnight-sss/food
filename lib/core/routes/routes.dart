@@ -5,9 +5,9 @@ import 'package:food/features/auth/presentation/pages/login_screen.dart';
 import 'package:food/features/auth/presentation/pages/photo_profile_screen.dart';
 import 'package:food/features/auth/presentation/pages/signin_screen.dart';
 import 'package:food/features/food/presentation/pages/add_item_screen.dart';
-import 'package:food/features/home/presentation/pages/admin_home_screen.dart';
-import 'package:food/features/menu/presentation/pages/admin_menu_screen.dart';
-import 'package:food/features/home/presentation/pages/customer_home_screen.dart';
+import 'package:food/features/admin/presentation/pages/admin_home_screen.dart';
+import 'package:food/features/admin/presentation/pages/admin_menu_screen.dart';
+import 'package:food/features/customer/presentation/pages/customer_home_screen.dart';
 import 'package:food/features/onboarding/onboadring_screen.dart';
 import 'package:food/features/splash/splash_screen.dart';
 import 'package:food/features/welcome/welcome_screen.dart';
@@ -25,6 +25,7 @@ class Routes {
   static const String home = '/home';
   static const String adminMenu = '/adminmenu';
   static const String adminHome = '/adminhome';
+  static const String customerHome = '/customerhome';
   static const String profile = '/profile';
   static const String settings = '/settings';
   static const String onboarding = '/onboarding';
@@ -39,22 +40,23 @@ class Routes {
         builder: (context, state) => const OnboadringScreen(),
       ),
       GoRoute(path: welcome, builder: (context, state) => WelcomeScreen()),
-      GoRoute(
-        path: photo,
-        builder: (context, state) =>
-            PhotoProfileScreen(),
-      ),
+      GoRoute(path: photo, builder: (context, state) => PhotoProfileScreen()),
       GoRoute(
         path: login,
-        builder: (context, state) =>
-            LoginScreen(userType: state.extra as UserTypeEnum),
+        builder: (context, state) {
+          final userType = state.extra as UserTypeEnum?;
+          return LoginScreen(userType: userType);
+        },
       ),
       GoRoute(
         path: register,
         builder: (context, state) =>
             SigninScreen(userType: state.extra as UserTypeEnum),
       ),
-      GoRoute(path: home, builder: (context, state) => CustomerHomeScreen()),
+      GoRoute(
+        path: customerHome,
+        builder: (context, state) => CustomerHomeScreen(),
+      ),
       GoRoute(path: adminMenu, builder: (context, state) => AdminMenuScreen()),
       GoRoute(path: adminHome, builder: (context, state) => AdminHomeScreen()),
       GoRoute(path: addItem, builder: (context, state) => AddItemScreen()),

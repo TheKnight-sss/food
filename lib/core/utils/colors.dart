@@ -6,6 +6,7 @@ class AppColors {
   static const Color bgcolor = Color(0xFFF3F3F3);
   static const Color txtcolor2 = Color(0xFF676767);
   static const Color primcolor = Color(0xFFff7622);
+  static const Color categcolor = Color(0xFFFFD27C);
   static const Color white = Color(0xFFFFFFFF);
   static const Color darkColor = Color.fromARGB(255, 10, 10, 10);
   static const Color accentcolor = Color(0xFF1E1E2E);
@@ -16,4 +17,7 @@ class AppColors {
   static const Color icon2 = Color(0xFFA0A5BA);
   static const Color icon3 = Color(0xFFAFAFAF);
   static const Color search = Color(0xFFF6F6F6);
+  static const Color cartbg = Color(0xFF32343E);
+  static const Color cartbg2 = Color(0xFF121223);
 }
+
