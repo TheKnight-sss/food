@@ -10,11 +10,13 @@ class UpBar extends StatelessWidget {
     required this.user,
     required this.color,
     required this.icon,
+    this.onIconTap,
   });
 
   final Text? user;
   final Color color;
   final Widget icon;
+  final VoidCallback? onIconTap;
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +41,15 @@ class UpBar extends StatelessWidget {
           "Welcome",
           style: Style.regular.copyWith(color: AppColors.txtcolor),
         ),
-        trailing: ClipOval(
-          child: Container(
-            color: AppColors.icon,
-            width: 45,
-            height: 49,
-            child: icon,
+        trailing: GestureDetector(
+          onTap: onIconTap,
+          child: ClipOval(
+            child: Container(
+              color: AppColors.icon,
+              width: 45,
+              height: 49,
+              child: icon,
+            ),
           ),
         ),
       ),

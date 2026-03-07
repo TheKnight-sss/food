@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food/components/up_bar.dart';
-import 'package:food/core/constants/app_images.dart';
 import 'package:food/core/routes/navigation.dart';
 import 'package:food/core/routes/routes.dart';
 import 'package:food/core/utils/colors.dart';
@@ -13,6 +10,7 @@ import 'package:food/features/auth/models/admin_model.dart';
 import 'package:food/features/admin/presentation/widget/counter.dart';
 import 'package:food/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:food/features/auth/presentation/cubit/auth_state.dart';
+import 'package:food/services/firebase/orders_service.dart';
 import 'package:gap/gap.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
@@ -27,15 +25,29 @@ class AdminDashboardScreen extends StatefulWidget {
 
 class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
   User? user;
+  final _ordersService = OrdersService();
+
+  int pendingOrders = 0;
+  int runningOrders = 0;
 
   Future<void> _getUser() async {
     user = FirebaseAuth.instance.currentUser;
+  }
+
+  Future<void> _loadOrderCounts() async {
+    final orders = await _ordersService.getAllOrders();
+    setState(() {
+      pendingOrders =
+          orders.where((o) => o.status.toLowerCase() == 'pending').length;
+      runningOrders = orders.length - pendingOrders;
+    });
   }
 
   @override
   void initState() {
     super.initState();
     _getUser();
+    _loadOrderCounts();
   }
 
   @override
@@ -78,9 +90,19 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(child: Counter(counter: widget.coun1)),
+                  Expanded(
+                    child: Counter(
+                      count: runningOrders,
+                      label: widget.coun1,
+                    ),
+                  ),
                   Gap(15),
-                  Expanded(child: Counter(counter: widget.coun2)),
+                  Expanded(
+                    child: Counter(
+                      count: pendingOrders,
+                      label: widget.coun2,
+                    ),
+                  ),
                 ],
               ),
               Gap(16),

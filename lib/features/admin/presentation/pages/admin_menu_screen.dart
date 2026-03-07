@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food/features/admin/presentation/widget/food_card.dart';
 import 'package:food/features/food/presentation/cubit/product_cubit.dart';
 import 'package:food/features/food/presentation/cubit/product_state.dart';
+import 'package:food/features/food/presentation/pages/food_details_screen.dart';
 import 'package:gap/gap.dart';
 
 class AdminMenuScreen extends StatefulWidget {
@@ -40,6 +41,14 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                   name: product.name,
                   category: product.category,
                   price: product.price,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => FoodDetailsScreen(product: product),
+                      ),
+                    );
+                  },
                 );
               }, separatorBuilder: (BuildContext context, int index) { return const Gap(20); },
             ),

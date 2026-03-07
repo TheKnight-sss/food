@@ -4,6 +4,7 @@ import 'package:food/features/auth/models/user_type_enum.dart';
 import 'package:food/features/auth/presentation/pages/login_screen.dart';
 import 'package:food/features/auth/presentation/pages/photo_profile_screen.dart';
 import 'package:food/features/auth/presentation/pages/signin_screen.dart';
+import 'package:food/features/customer/presentation/pages/customer_profile_screen.dart';
 import 'package:food/features/food/presentation/pages/add_item_screen.dart';
 import 'package:food/features/admin/presentation/pages/admin_home_screen.dart';
 import 'package:food/features/admin/presentation/pages/admin_menu_screen.dart';
@@ -26,6 +27,7 @@ class Routes {
   static const String adminMenu = '/adminmenu';
   static const String adminHome = '/adminhome';
   static const String customerHome = '/customerhome';
+  static const String customerProfile = '/customerprofile';
   static const String profile = '/profile';
   static const String settings = '/settings';
   static const String onboarding = '/onboarding';
@@ -57,6 +59,7 @@ class Routes {
         path: customerHome,
         builder: (context, state) => CustomerHomeScreen(),
       ),
+      GoRoute(path: customerProfile, builder: (context, state) => CustomerProfileScreen()),
       GoRoute(path: adminMenu, builder: (context, state) => AdminMenuScreen()),
       GoRoute(path: adminHome, builder: (context, state) => AdminHomeScreen()),
       GoRoute(path: addItem, builder: (context, state) => AddItemScreen()),

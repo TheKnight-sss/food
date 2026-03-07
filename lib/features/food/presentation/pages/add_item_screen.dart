@@ -35,7 +35,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
           if (state is ProductLoading) {
             showLoadingDialog(context);
           } else if (state is ProductAdded) {
-            Navigator.pop(context);
+            // close loading dialog
+            pop(context);
             showMyDialog(
               context,
               "Item added successfully",
@@ -43,7 +44,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             );
             pushwithReplacement(context, Routes.admindashboard);
           } else if (state is AddItemError) {
-            Navigator.pop(context);
+            pop(context);
             showMyDialog(context, state.message, type: Dialogs.error);
           }
         },
@@ -66,7 +67,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       ),
                       child: IconButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          goToBase(context, Routes.adminHome);
                         },
                         icon: const Icon(
                           Icons.arrow_back,

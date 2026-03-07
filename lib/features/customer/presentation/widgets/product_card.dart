@@ -5,9 +5,10 @@ import 'package:food/features/food/models/product_model.dart';
 
 // ignore: must_be_immutable
 class ProductCard extends StatelessWidget {
-  ProductCard({super.key, required this.product});
-  ProductModel product;
-  void Function()? ontap;
+  ProductCard({super.key, required this.product, this.ontap});
+
+  final ProductModel product;
+  final void Function()? ontap;
 
   @override
   Widget build(BuildContext context) {

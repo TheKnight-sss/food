@@ -88,7 +88,11 @@ class ProductCubit extends Cubit<ProductState> {
       final snapshot = await FirebaseFirestore.instance.collection("products").get();
 
       allProducts = snapshot.docs
-          .map((e) => ProductModel.fromJson(e.data()))
+          .map((e) {
+            final data = e.data();
+            data['id'] = e.id; // ensure id is set from document
+            return ProductModel.fromJson(data);
+          })
           .toList();
 
 

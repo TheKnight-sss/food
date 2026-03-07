@@ -27,4 +27,28 @@ class CartCubit extends Cubit<CartState> {
     return _items.fold(
         0, (sum, item) => sum + item.totalPrice);
   }
+
+  void removeItem(ProductModel product) {
+    _items.removeWhere((item) => item.product.id == product.id);
+    emit(CartUpdated(_items, _calculateTotal()));
+  }
+
+  void decreaseQuantity(ProductModel product) {
+    final index =
+        _items.indexWhere((item) => item.product.id == product.id);
+
+    if (index != -1) {
+      if (_items[index].quantity > 1) {
+        _items[index].quantity--;
+      } else {
+        _items.removeAt(index);
+      }
+      emit(CartUpdated(_items, _calculateTotal()));
+    }
+  }
+
+  void clearCart() {
+    _items.clear();
+    emit(CartUpdated(_items, 0));
+  }
 }

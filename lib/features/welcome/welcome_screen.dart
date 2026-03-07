@@ -32,26 +32,40 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           Positioned(
             top: 0,
             right: -5,
-            child: Image.asset(
-              AppImages.vector,
-              color: AppColors.accentcolor2,
-            ),
+            child: Image.asset(AppImages.vector, color: AppColors.accentcolor2),
           ),
-          Positioned.fill(            
+          Positioned.fill(
             child: Align(
               alignment: Alignment.center,
-              child: Column(
-                spacing: 10,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomButton(txt: "Admin", onpressed: (){
-                    pushTo(context, Routes.login, extra: UserTypeEnum.admin);
-                  },),
-                  Gap(10),
-                  CustomButton(txt: " Customer", onpressed: (){
-                    pushTo(context, Routes.login, extra: UserTypeEnum.customer);
-                  },),
-                ],
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  spacing: 10,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomButton(
+                      txt: "Admin",
+                      onpressed: () {
+                        pushTo(
+                          context,
+                          Routes.login,
+                          extra: UserTypeEnum.admin,
+                        );
+                      },
+                    ),
+                    Gap(20),
+                    CustomButton(
+                      txt: " Customer",
+                      onpressed: () {
+                        pushTo(
+                          context,
+                          Routes.login,
+                          extra: UserTypeEnum.customer,
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

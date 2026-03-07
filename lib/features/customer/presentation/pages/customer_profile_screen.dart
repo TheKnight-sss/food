@@ -5,25 +5,29 @@ import 'package:food/core/routes/routes.dart';
 import 'package:food/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:food/features/auth/presentation/cubit/auth_state.dart';
 
-class AdminProfileScreen extends StatelessWidget {
-  const AdminProfileScreen({super.key});
+class CustomerProfileScreen extends StatelessWidget {
+  const CustomerProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthInitialState) {
-          // go back to welcome page once logout completes
           goToBase(context, Routes.welcome);
         }
       },
-      child: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // trigger logout; navigation is handled by listener
-            context.read<AuthCubit>().logout();
-          },
-          child: const Text('Logout'),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Profile'),
+        ),
+        body: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              context.read<AuthCubit>().logout();
+              pushTo(context, Routes.welcome);
+            },
+            child: const Text('Sign Out'),
+          ),
         ),
       ),
     );

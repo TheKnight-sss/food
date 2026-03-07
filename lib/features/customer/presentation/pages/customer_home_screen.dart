@@ -4,9 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:food/components/up_bar.dart';
 import 'package:food/core/constants/app_images.dart';
+import 'package:food/core/routes/navigation.dart';
+import 'package:food/core/routes/routes.dart';
 import 'package:food/core/utils/colors.dart';
 import 'package:food/core/utils/text_style.dart';
 import 'package:food/features/customer/presentation/widgets/product_card.dart';
+import 'package:food/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:food/features/cart/presentation/pages/cart_screen.dart';
 import 'package:food/features/food/presentation/cubit/product_cubit.dart';
 import 'package:food/features/food/presentation/cubit/product_state.dart';
 import 'package:gap/gap.dart';
@@ -49,10 +53,22 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Gap(30),
-                    UpBar(
-                      user: Text(user?.displayName ?? ""),
-                      icon: Icon(Icons.shopping_bag_outlined),
-                      color: AppColors.white,
+                    GestureDetector(
+                      onTap: () {
+                        pushTo(context, Routes.customerProfile );
+                      },
+                      child: UpBar(
+                        user: Text(user?.displayName ?? ""),
+                        icon: Icon(Icons.shopping_bag_outlined),
+                        color: AppColors.white,
+                        onIconTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const CartScreen(),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                     Gap(55),
                     TextField(
@@ -123,9 +139,15 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                       itemCount: state.products.length,
                       itemBuilder: (context, index) {
                         final product = state.products[index];
-                        return ProductCard(product: product,
-                        
-                          );
+                        return ProductCard(
+                          product: product,
+                          ontap: () {
+                            context.read<CartCubit>().addToCart(product);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('${product.name} added to cart')),
+                            );
+                          },
+                        );
                       },
                     )
                   ],
