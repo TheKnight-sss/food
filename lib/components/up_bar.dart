@@ -11,25 +11,30 @@ class UpBar extends StatelessWidget {
     required this.color,
     required this.icon,
     this.onIconTap,
+    this.onpicTap,
   });
 
   final Text? user;
   final Color color;
   final Widget icon;
   final VoidCallback? onIconTap;
+  final Function()? onpicTap;
 
   @override
   Widget build(BuildContext context) {
     return Material(
       child: ListTile(
-        leading: ClipOval(
-          child: Container(
-            color: color,
-            child: SvgPicture.asset(
-              AppImages.profile,
-              width: 24,
-              height: 54,
-              fit: BoxFit.fill,
+        leading: GestureDetector(
+          onTap: onpicTap,
+          child: ClipOval(
+            child: Container(
+              color: color,
+              child: SvgPicture.asset(
+                AppImages.profile,
+                width: 24,
+                height: 54,
+                fit: BoxFit.fill,
+              ),
             ),
           ),
         ),

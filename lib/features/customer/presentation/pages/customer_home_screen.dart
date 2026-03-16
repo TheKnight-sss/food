@@ -53,22 +53,18 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Gap(30),
-                    GestureDetector(
-                      onTap: () {
-                        pushTo(context, Routes.customerProfile );
+                    UpBar(
+                      onpicTap: () {
+                        pushTo(context, Routes.customerProfile);
                       },
-                      child: UpBar(
-                        user: Text(user?.displayName ?? ""),
-                        icon: Icon(Icons.shopping_bag_outlined),
-                        color: AppColors.white,
-                        onIconTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => const CartScreen(),
-                            ),
-                          );
-                        },
-                      ),
+                      user: Text(user?.displayName ?? ""),
+                      icon: Icon(Icons.shopping_bag_outlined),
+                      color: AppColors.white,
+                      onIconTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => const CartScreen()),
+                        );
+                      },
                     ),
                     Gap(55),
                     TextField(
@@ -131,11 +127,12 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                     GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 15,
-                        mainAxisSpacing: 15,
-                      ),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 15,
+                            mainAxisSpacing: 15,
+                          ),
                       itemCount: state.products.length,
                       itemBuilder: (context, index) {
                         final product = state.products[index];
@@ -144,12 +141,14 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                           ontap: () {
                             context.read<CartCubit>().addToCart(product);
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('${product.name} added to cart')),
+                              SnackBar(
+                                content: Text('${product.name} added to cart'),
+                              ),
                             );
                           },
                         );
                       },
-                    )
+                    ),
                   ],
                 ),
               ),

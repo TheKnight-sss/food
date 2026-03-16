@@ -42,13 +42,12 @@ class CustomTextField extends StatelessWidget {
       onTap: onTap,
       keyboardType: keyboardType,
       textAlign: textAlign,
-      textDirection: TextDirection.rtl,
-
       inputFormatters: inputFormatters,
       decoration: InputDecoration(
         hintText: hint,
         suffixIcon: suffixIcon,
         fillColor: color,
+        filled: true,
       ),
       minLines: minLines,
       maxLines: maxLines,
