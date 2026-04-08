@@ -66,8 +66,11 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             children: [
               Gap(26),
               UpBar(
-                user: Text(user?.displayName ?? ""),
-                color: AppColors.white,
+                isActive: true,
+                // color: AppColors.white,
+                  onpicTap: () {
+                    pushwithReplacement(context, Routes.adminHome);
+                  },
                 icon: GestureDetector(
                   onTap: () {
                     pushTo(context, Routes.photo, extra: user);

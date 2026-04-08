@@ -35,20 +35,43 @@ void showLoadingDialog(BuildContext context) {
     barrierColor: AppColors.darkColor.withValues(alpha: 7),
     builder: (context) {
       return Center(
-        child: Lottie.asset(
-          "assets/images/Loading.json",
-          delegates: LottieDelegates(
-            values: [
-              ValueDelegate.color(
-                const ['**'],
-                value: AppColors.primcolor,
+        child: Container(
+          width: 220,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.25),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
               ),
             ],
           ),
-          width: 180,
-          height: 180,
-          fit: BoxFit.contain,
-          repeat: true),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Lottie.asset(
+                "assets/images/Loading.json",
+                delegates: LottieDelegates(
+                  values: [
+                    ValueDelegate.color(
+                      const ['**'],
+                      value: AppColors.primcolor,
+                    ),
+                  ],
+                ),
+                width: 120,
+                height: 120,
+                fit: BoxFit.contain,
+                repeat: true,
+              ),
+              const SizedBox(height: 12),
+              Text('Loading...', style: Style.body.copyWith(fontWeight: FontWeight.w600)),
+            ],
+          ),
+        ),
       );
     },
   );

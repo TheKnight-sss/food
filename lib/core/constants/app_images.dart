@@ -16,4 +16,6 @@ class AppImages {
   static const String bell = "assets/icons/bell.svg";
   static const String user = "assets/icons/User.png";
   static const String user2 = "assets/icons/User2.svg";
+  static const String settings = "assets/icons/Settings.svg";
+  static const String setting = "assets/icons/Setting.png";
 }

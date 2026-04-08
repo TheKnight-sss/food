@@ -165,6 +165,7 @@ class _CartScreenState extends State<CartScreen> {
                     itemBuilder: (context, index) {
                       final item = items[index];
                       return Container(
+                        height: 117,
                         margin: const EdgeInsets.only(bottom: 16),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,8 +175,8 @@ class _CartScreenState extends State<CartScreen> {
                               borderRadius: BorderRadius.circular(8),
                               child: Image.network(
                                 item.product.imageUrl,
-                                width: 80,
-                                height: 80,
+                                width: 136,
+                                height: 117,
                                 fit: BoxFit.cover,
                               ),
                             ),

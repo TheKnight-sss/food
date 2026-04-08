@@ -54,12 +54,12 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                   children: [
                     Gap(30),
                     UpBar(
+                      isActive: true,
                       onpicTap: () {
                         pushTo(context, Routes.customerProfile);
                       },
-                      user: Text(user?.displayName ?? ""),
-                      icon: Icon(Icons.shopping_bag_outlined),
-                      color: AppColors.white,
+                      user: Text(user?.displayName ?? "Guest"),
+                      icon: Icon(Icons.shopping_bag_outlined, color: AppColors.white),
                       onIconTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(builder: (_) => const CartScreen()),
@@ -135,7 +135,9 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                           ),
                       itemCount: state.products.length,
                       itemBuilder: (context, index) {
-                        final product = state.products[index];
+                        final product = context.read<ProductCubit>().allCategories.isEmpty
+                            ? context.read<ProductCubit>().allProducts[index]
+                            : context.read<ProductCubit>().filteredProducts[index];
                         return ProductCard(
                           product: product,
                           ontap: () {
@@ -155,7 +157,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             ),
           );
         }
-
         if (state is AddItemError) {
           return Center(child: Text(state.message));
         }

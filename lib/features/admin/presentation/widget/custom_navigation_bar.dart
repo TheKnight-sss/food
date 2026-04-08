@@ -5,11 +5,13 @@ import 'package:food/core/routes/navigation.dart';
 import 'package:food/core/routes/routes.dart';
 import 'package:food/core/utils/colors.dart';
 
+// ignore: must_be_immutable
 class CustomNavigationBar extends StatelessWidget {
   const CustomNavigationBar({
     super.key,
     required this.currentIndex,
     required this.onTap,
+    
   });
   final int currentIndex;
   final ValueChanged<int> onTap;
@@ -49,17 +51,19 @@ class CustomNavigationBar extends StatelessWidget {
               ),
             ),
             _navItem(AppImages.bell,3,26,26,true),
-            _navItem(AppImages.user2,4,26,26,true),
+            _navItem(AppImages.user2,4,26,26,true,prof: () {
+              pushTo(context, Routes.adminProfile);
+            }),
           ],
         ),
       ),
     );
   }
 
-  Widget _navItem(String icon,int index,double w,double h,bool useColor){
+  Widget _navItem(String icon,int index,double w,double h,bool useColor,{VoidCallback? prof}) {
     final isActive = currentIndex == index;
     return GestureDetector(
-      onTap: (){onTap(index);},
+      onTap:prof?? (){onTap(index);},
       child: SvgPicture.asset(icon,
       width: w,
       height: h,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food/features/admin/presentation/pages/admin_dashboard_screen.dart';
+import 'package:food/features/admin/presentation/pages/admin_profile_screen.dart';
 import 'package:food/features/auth/models/user_type_enum.dart';
 import 'package:food/features/auth/presentation/pages/login_screen.dart';
 import 'package:food/features/auth/presentation/pages/photo_profile_screen.dart';
@@ -24,14 +25,16 @@ class Routes {
   static const String addItem = '/addItem';
   static const String register = '/register';
   static const String home = '/home';
-  static const String adminMenu = '/adminmenu';
-  static const String adminHome = '/adminhome';
   static const String customerHome = '/customerhome';
   static const String customerProfile = '/customerprofile';
   static const String profile = '/profile';
   static const String settings = '/settings';
   static const String onboarding = '/onboarding';
+  //! Admin routes
   static const String admindashboard = '/admindashboard';
+  static const String adminMenu = '/adminmenu';
+  static const String adminHome = '/adminhome';
+  static const String adminProfile = '/adminprofile';
 
   static final GoRouter routes = GoRouter(
     navigatorKey: navigatorKey,
@@ -59,7 +62,11 @@ class Routes {
         path: customerHome,
         builder: (context, state) => CustomerHomeScreen(),
       ),
-      GoRoute(path: customerProfile, builder: (context, state) => CustomerProfileScreen()),
+      GoRoute(
+        path: customerProfile,
+        builder: (context, state) => CustomerProfileScreen(),
+      ),
+      //! Admin routes
       GoRoute(path: adminMenu, builder: (context, state) => AdminMenuScreen()),
       GoRoute(path: adminHome, builder: (context, state) => AdminHomeScreen()),
       GoRoute(path: addItem, builder: (context, state) => AddItemScreen()),
@@ -67,6 +74,11 @@ class Routes {
         path: admindashboard,
         builder: (context, state) => AdminDashboardScreen(),
       ),
+      GoRoute(
+        path: adminProfile,
+        builder: (context, state) => AdminProfileScreen(),
+      ),
+
     ],
   );
 }

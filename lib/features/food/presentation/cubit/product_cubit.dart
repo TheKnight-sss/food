@@ -96,7 +96,6 @@ class ProductCubit extends Cubit<ProductState> {
           .toList();
 
 
-          filteredProducts = allProducts;
 
       allCategories = snapshot.docs
           .map((e) => (e.data())["category"] as String)
@@ -104,6 +103,12 @@ class ProductCubit extends Cubit<ProductState> {
           .toList();
 
       allCategories.insert(0, "All");
+    }
+
+    if (category != null && category != "All") {
+      filteredProducts = allProducts.where((p) => p.category == category).toList();
+    } else {
+      filteredProducts = allProducts;
     }
 
     

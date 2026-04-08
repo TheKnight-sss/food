@@ -3,61 +3,96 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:food/core/constants/app_images.dart';
 import 'package:food/core/utils/colors.dart';
 import 'package:food/core/utils/text_style.dart';
+import 'package:gap/gap.dart';
 
+// ignore: must_be_immutable
 class UpBar extends StatelessWidget {
   const UpBar({
     super.key,
-    required this.user,
-    required this.color,
+    this.user,
     required this.icon,
     this.onIconTap,
     this.onpicTap,
+    this.icon1,
+    required this.isActive,
+    this.title,
   });
 
+  final bool isActive;
+
   final Text? user;
-  final Color color;
-  final Widget icon;
+  final String? title;
+  final Widget? icon;
+  final Widget? icon1;
   final VoidCallback? onIconTap;
-  final Function()? onpicTap;
+  final VoidCallback? onpicTap;
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: ListTile(
-        leading: GestureDetector(
-          onTap: onpicTap,
-          child: ClipOval(
-            child: Container(
-              color: color,
-              child: SvgPicture.asset(
-                AppImages.profile,
-                width: 24,
-                height: 54,
-                fit: BoxFit.fill,
+    return SizedBox(
+      height: 60,
+      child: Material(
+        color: Colors.transparent,
+        child: Row(
+          children: [
+            GestureDetector(
+              onTap: onpicTap,
+              child: ClipOval(
+                child: Container(
+                  width: 45,
+                  height: 45,
+                  color: AppColors.accentcolor4,
+                  child: Center(child: isActive ? prexIcon() : icon1),
+                ),
               ),
             ),
-          ),
-        ),
-        title: Text(
-          user?.data ?? "",
-          style: Style.title.copyWith(color: AppColors.primcolor),
-        ),
-        subtitle: Text(
-          "Welcome",
-          style: Style.regular.copyWith(color: AppColors.txtcolor),
-        ),
-        trailing: GestureDetector(
-          onTap: onIconTap,
-          child: ClipOval(
-            child: Container(
-              color: AppColors.icon,
-              width: 45,
-              height: 49,
-              child: icon,
-            ),
-          ),
+            const Gap(18),
+            if (isActive)
+              Expanded(
+                child: Row(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          user?.data ?? "",
+                          style: Style.title.copyWith(color: AppColors.primcolor),
+                        ),
+                        Text(
+                          "Welcome",
+                          style: Style.regular.copyWith(
+                            color: AppColors.txtcolor,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                    GestureDetector(onTap: onIconTap, child: cartIcon()),
+                  ],
+                ),
+              )
+            else
+              Text(title ?? "", style: Style.title),
+          ],
         ),
       ),
     );
+  }
+
+  //! methods for Icons
+  ClipOval cartIcon() {
+    return ClipOval(
+      child: Container(
+        color: AppColors.icon,
+        width: 45,
+        height: 45,
+        child: icon,
+      ),
+    );
+  }
+
+  SvgPicture prexIcon() {
+    return SvgPicture.asset(AppImages.profile, width: 16, height: 20);
   }
 }

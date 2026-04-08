@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:food/core/constants/app_fonts.dart';
 import 'package:food/core/utils/colors.dart';
 
 class AppTheme {
   static ThemeData get lightTheme => ThemeData(
     scaffoldBackgroundColor: Colors.white,
     primaryColor: AppColors.primcolor,
+    fontFamily: AppFonts.sen,
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.search,
