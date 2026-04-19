@@ -10,7 +10,7 @@ class Counter extends StatelessWidget {
     required this.label,
   });
 
-  final int count;
+  final dynamic count;
   final String label;
 
   @override

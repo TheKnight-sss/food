@@ -21,6 +21,7 @@ class AppColors {
   static const Color cartbg2 = Color(0xFF121223);
   static const Color arrow = Color(0xFF747783);
   static const Color settings = Color(0xFF413DFB);
-
+  static const Color userReviews = Color(0xFF18CFE8);
+  static const Color logOut = Color(0xFFD20F0F);
 }
 

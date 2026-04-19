@@ -9,6 +9,7 @@ import 'package:food/features/auth/models/admin_model.dart';
 import 'package:food/features/auth/models/customer_model.dart';
 import 'package:food/features/auth/models/user_type_enum.dart';
 import 'package:food/features/auth/presentation/cubit/auth_state.dart';
+import 'package:food/features/orders/presentation/cubit/order_cubit.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitialState());
@@ -79,6 +80,7 @@ class AuthCubit extends Cubit<AuthState> {
       //then store additional user info in firestore if needed
       if (type == UserTypeEnum.admin) {
         var admin = AdminModel(
+          balance: await OrderCubit().getAdminBalance(user?.uid ?? ""),
           uid: user?.uid,
           name: nameController.text,
           email: emailController.text,
@@ -162,9 +164,10 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthFailureState("فشل في رفع الصورة"));
         return;
       }
-      String? imageUrl = await updateImageToCloudinary(pickedImage!);
+      String? imageUrl = await updateImageToCloudinary(pickedImage);
 
       adminData = AdminModel(
+        balance: await OrderCubit().getAdminBalance(FirebaseAuth.instance.currentUser?.uid ?? ""),
         uid: FirebaseAuth.instance.currentUser?.uid,
         name: nameController.text,
         email: emailController.text,

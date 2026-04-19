@@ -8,7 +8,7 @@ import 'package:food/core/routes/navigation.dart';
 import 'package:food/core/routes/routes.dart';
 import 'package:food/core/utils/colors.dart';
 import 'package:food/core/utils/text_style.dart';
-import 'package:food/features/customer/presentation/widgets/product_card.dart';
+import 'package:food/features/users/customer/presentation/widgets/product_card.dart';
 import 'package:food/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:food/features/cart/presentation/pages/cart_screen.dart';
 import 'package:food/features/food/presentation/cubit/product_cubit.dart';

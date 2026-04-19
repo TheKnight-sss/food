@@ -3,8 +3,9 @@ class AdminModel {
   final String? email;
   final String? image;
   final String? uid;
+  final double balance;
 
-  AdminModel({this.name, this.email, this.image,this.uid});
+  AdminModel({this.name, this.email, this.image,this.uid, required this.balance});
 
   factory AdminModel.fromJson(Map<String, dynamic> json) {
     return AdminModel(      
@@ -12,7 +13,7 @@ class AdminModel {
       name: json['name'] as String?,
       email: json['email'] as String?,
       image: json['image'] as String?,
-      
+      balance: json['balance'] as double? ?? 0.0,
     );
   }
 

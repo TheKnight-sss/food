@@ -20,7 +20,7 @@ class ProductCubit extends Cubit<ProductState> {
   final categController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-
+  //! add item
   Future<void> addItem([File? product]) async {
     if (!formKey.currentState!.validate()) return;
 

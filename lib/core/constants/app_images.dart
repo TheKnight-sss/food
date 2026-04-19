@@ -9,6 +9,7 @@ class AppImages {
   static const String facebook = "assets/icons/Group 8189.svg";
   static const String google = "assets/icons/Google.svg";
   static const String profile = "assets/icons/profile.svg";
+    //! Admin Icons
   static const String search = "assets/icons/search.svg";
   static const String window = "assets/icons/window.svg";
   static const String list = "assets/icons/list.svg";
@@ -18,4 +19,8 @@ class AppImages {
   static const String user2 = "assets/icons/User2.svg";
   static const String settings = "assets/icons/Settings.svg";
   static const String setting = "assets/icons/Setting.png";
+  static const String withdrawal = "assets/icons/withdrawal.png";
+  static const String orders = "assets/icons/Number-of-order.png";
+  static const String orderreview = "assets/icons/FAQ.png";
+  static const String logOut = "assets/icons/Logout.png";
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +8,8 @@ import 'package:food/core/routes/routes.dart';
 import 'package:food/core/utils/colors.dart';
 import 'package:food/core/utils/text_style.dart';
 import 'package:food/features/auth/models/admin_model.dart';
-import 'package:food/features/admin/presentation/widget/counter.dart';
+import 'package:food/features/orders/presentation/cubit/order_cubit.dart';
+import 'package:food/features/users/admin/presentation/widget/counter.dart';
 import 'package:food/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:food/features/auth/presentation/cubit/auth_state.dart';
 import 'package:food/services/firebase/orders_service.dart';
@@ -25,29 +27,15 @@ class AdminDashboardScreen extends StatefulWidget {
 
 class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
   User? user;
-  final _ordersService = OrdersService();
-
-  int pendingOrders = 0;
-  int runningOrders = 0;
 
   Future<void> _getUser() async {
     user = FirebaseAuth.instance.currentUser;
-  }
-
-  Future<void> _loadOrderCounts() async {
-    final orders = await _ordersService.getAllOrders();
-    setState(() {
-      pendingOrders =
-          orders.where((o) => o.status.toLowerCase() == 'pending').length;
-      runningOrders = orders.length - pendingOrders;
-    });
   }
 
   @override
   void initState() {
     super.initState();
     _getUser();
-    _loadOrderCounts();
   }
 
   @override
@@ -55,9 +43,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     final cubit = context.watch<AuthCubit>();
     final admin = cubit.adminData;
     return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
-        
-      },
+      listener: (context, state) {},
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: SingleChildScrollView(
@@ -68,25 +54,25 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               UpBar(
                 isActive: true,
                 // color: AppColors.white,
-                  onpicTap: () {
-                    pushwithReplacement(context, Routes.adminHome);
-                  },
+                onpicTap: () {
+                  pushwithReplacement(context, Routes.adminHome);
+                },
                 icon: GestureDetector(
                   onTap: () {
                     pushTo(context, Routes.photo, extra: user);
                   },
                   child: (admin?.image != null)
-                    ? Image.network(
-                      admin!.image!,
-                      height: 40,
-                      width: 40,
-                      fit: BoxFit.contain,
-                    )
-                    : CircleAvatar(
-                      radius: 20,
-                      backgroundColor: AppColors.bgcolor,
-                      child: Icon(Icons.person, color: AppColors.darkColor),
-                    ),
+                      ? Image.network(
+                          admin!.image!,
+                          height: 40,
+                          width: 40,
+                          fit: BoxFit.contain,
+                        )
+                      : CircleAvatar(
+                          radius: 20,
+                          backgroundColor: AppColors.bgcolor,
+                          child: Icon(Icons.person, color: AppColors.darkColor),
+                        ),
                 ),
               ),
               Gap(24),
@@ -94,16 +80,38 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: Counter(
-                      count: runningOrders,
-                      label: widget.coun1,
+                    child: FutureBuilder<int>(
+                      future: context
+                          .read<OrderCubit>()
+                          .getRunningOrdersCount(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Counter(count: 0, label: widget.coun1);
+                        }
+
+                        return Counter(
+                          count: snapshot.data!,
+                          label: widget.coun1,
+                        );
+                      },
                     ),
                   ),
                   Gap(15),
                   Expanded(
-                    child: Counter(
-                      count: pendingOrders,
-                      label: widget.coun2,
+                    child: FutureBuilder<int>(
+                      future: context
+                          .read<OrderCubit>()
+                          .getPendingOrdersCount(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Counter(count: 0, label: widget.coun2);
+                        }
+
+                        return Counter(
+                          count: snapshot.data!,
+                          label: widget.coun2,
+                        );
+                      },
                     ),
                   ),
                 ],

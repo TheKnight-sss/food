@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food/features/orders/models/order_model.dart';
 import 'package:food/services/firebase/orders_service.dart';
@@ -71,6 +72,19 @@ class OrderCubit extends Cubit<OrderState> {
     }
   }
 
+  Future<int> fetchAllOrdersCount() async {
+  emit(OrderLoading());
+
+  try {
+    final orders = await _ordersService.getAllOrders();
+    emit(OrdersLoaded(orders));
+    return orders.length;
+  } catch (e) {
+    emit(OrderFailure('Error fetching orders: ${e.toString()}'));
+    return 0;
+  }
+}
+
   /// Update order status (admin only)
   Future<void> updateOrderStatus(String orderId, String newStatus) async {
     try {
@@ -78,6 +92,37 @@ class OrderCubit extends Cubit<OrderState> {
       emit(OrderStatusUpdated(orderId: orderId, newStatus: newStatus));
     } catch (e) {
       emit(OrderFailure('Error updating order status: ${e.toString()}'));
+    }
+  }
+
+  //!/ Get admin balance
+  Future<double> getAdminBalance(String adminUserId) async {
+    try {
+      final balance = await _ordersService.getAdminBalance(adminUserId);
+      return balance;
+    } catch (e) {
+      emit(OrderFailure('Error fetching admin balance: ${e.toString()}'));
+      return 0.0;
+    }
+  }
+
+  Future<int> getPendingOrdersCount() async {
+    try{
+      final count = await _ordersService.pendingOrdersCount();
+      return count;
+    } catch (e) {
+      emit(OrderFailure('Error fetching pending orders count: ${e.toString()}'));
+      return 0;
+    }
+  }
+
+  Future<int> getRunningOrdersCount() async {
+    try{
+      final count = await _ordersService.runningOrdersCount();
+      return count;
+    } catch (e) {
+      emit(OrderFailure('Error fetching running orders count: ${e.toString()}'));
+      return 0;
     }
   }
 }

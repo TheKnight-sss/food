@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:food/features/orders/models/order_model.dart';
 
 class OrdersService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;  
 
   /// Save a new order to Firestore
   Future<String?> saveOrder(OrderModel order) async {
@@ -83,4 +83,55 @@ class OrdersService {
       print('Error updating order status: $e');
     }
   }
+
+  Future<double> getAdminBalance(String adminUserId) async {
+    try {
+      final snapshot = await _firestore
+          .collection('orders')
+          .where('adminUserId', isEqualTo: adminUserId)
+          .where('status', isEqualTo: 'delivered')
+          .get();
+
+      double totalBalance = 0.0;
+      for (var doc in snapshot.docs) {
+        final order = OrderModel.fromJson(doc.id, doc.data());
+        totalBalance += order.totalAmount;
+      }
+      return totalBalance;
+    } catch (e) {
+      print('Error fetching admin balance: $e');
+      return 0.0;
+    }
+  }
+
+  Future<int> pendingOrdersCount() async {
+    try {
+      final snapshot = await _firestore
+          .collection('orders')
+          .where('status', isEqualTo: 'pending')
+          .get();
+
+      final  count = snapshot.docs.length;
+      return count;
+    } catch (e) {
+      print('Error fetching pending orders count: $e');
+      return 0;
+    }
+  }
+  
+  Future<int> runningOrdersCount() async {
+    try {
+      final snapshot = await _firestore
+          .collection('orders')
+          .where('status', isEqualTo: 'running')
+          .get();
+
+      final  count = snapshot.docs.length;
+      return count;
+    } catch (e) {
+      print('Error fetching running orders count: $e');
+      return 0;
+    }
+  }
+
 }
