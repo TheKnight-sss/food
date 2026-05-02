@@ -23,4 +23,9 @@ class AppImages {
   static const String orders = "assets/icons/Number-of-order.png";
   static const String orderreview = "assets/icons/FAQ.png";
   static const String logOut = "assets/icons/Logout.png";
+  //! Customer Icons
+  static const String address = "assets/icons/addresses.svg";
+  static const String cart = "assets/icons/cart.svg";
+  static const String favourite = "assets/icons/favourite.svg";
+  static const String credit = "assets/icons/credit-card.svg";
 }

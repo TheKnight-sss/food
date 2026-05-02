@@ -23,5 +23,8 @@ class AppColors {
   static const Color settings = Color(0xFF413DFB);
   static const Color userReviews = Color(0xFF18CFE8);
   static const Color logOut = Color(0xFFD20F0F);
+  static const Color photo = Color(0xFFFFC6AE);
+  static const Color cart = Color(0xFF369BFF);
+  static const Color bell = Color(0xFFFFAA2A);
 }
 

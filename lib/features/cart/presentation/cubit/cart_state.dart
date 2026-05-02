@@ -4,6 +4,12 @@ class CartState {}
 
 class CartInitial extends CartState {}
 
+class CartScuccess extends CartState {
+  final String message;
+
+  CartScuccess(this.message);
+}
+
 class CartUpdated extends CartState {
   final List<CartItemModel> items;
   final double total;

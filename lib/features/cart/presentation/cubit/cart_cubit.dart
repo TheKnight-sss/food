@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food/features/cart/models/cart_model.dart';
 import 'package:food/features/cart/presentation/cubit/cart_state.dart';
 import 'package:food/features/food/models/product_model.dart';
+import 'package:food/features/orders/models/order_model.dart';
 
 class CartCubit extends Cubit<CartState> {
   CartCubit() : super(CartInitial());
@@ -11,8 +13,7 @@ class CartCubit extends Cubit<CartState> {
   List<CartItemModel> get items => _items;
 
   void addToCart(ProductModel product) {
-    final index =
-        _items.indexWhere((item) => item.product.id == product.id);
+    final index = _items.indexWhere((item) => item.product.id == product.id);
 
     if (index != -1) {
       _items[index].quantity++;
@@ -24,8 +25,7 @@ class CartCubit extends Cubit<CartState> {
   }
 
   double _calculateTotal() {
-    return _items.fold(
-        0, (sum, item) => sum + item.totalPrice);
+    return _items.fold(0, (sum, item) => sum + item.totalPrice);
   }
 
   void removeItem(ProductModel product) {
@@ -34,8 +34,7 @@ class CartCubit extends Cubit<CartState> {
   }
 
   void decreaseQuantity(ProductModel product) {
-    final index =
-        _items.indexWhere((item) => item.product.id == product.id);
+    final index = _items.indexWhere((item) => item.product.id == product.id);
 
     if (index != -1) {
       if (_items[index].quantity > 1) {
@@ -51,4 +50,6 @@ class CartCubit extends Cubit<CartState> {
     _items.clear();
     emit(CartUpdated(_items, 0));
   }
+
+
 }

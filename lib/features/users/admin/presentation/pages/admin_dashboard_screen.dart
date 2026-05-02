@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +11,6 @@ import 'package:food/features/orders/presentation/cubit/order_cubit.dart';
 import 'package:food/features/users/admin/presentation/widget/counter.dart';
 import 'package:food/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:food/features/auth/presentation/cubit/auth_state.dart';
-import 'package:food/services/firebase/orders_service.dart';
 import 'package:gap/gap.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
